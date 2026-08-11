@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abdelrahmane Bensahla — Full-stack engineer</title>
+<script>
+  // Runs before first paint. `.motion` gates every rule that starts an
+  // element hidden, so with JS off — or reduced motion on — nothing is
+  // ever hidden waiting for a script that will not arrive.
+  (function () {
+    var d = document.documentElement;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) d.classList.add('motion');
+    var id = location.hash.slice(1);
+    // A deep link has nothing to slide in from; suppress the entrance.
+    if (id === 'jc' || id === 'net' || id === 'sahl') d.setAttribute('data-deep-link', id);
+  })();
+</script>
+<meta name="description" content="Full-stack engineer who ships production software end to end. Internal platforms at a state transportation agency, a subscription AI product with paying users, and a config-driven template system.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="page">
+
+  <header class="masthead" data-enter>
+    <a href="#top" data-nav class="masthead-name">Abdelrahmane Bensahla</a>
+    <span class="eyebrow masthead-role">Full-stack engineer</span>
+    <a href="assets/resume.pdf" class="eyebrow link-rule masthead-resume">Résumé</a>
+  </header>
+
+  <main id="top" class="main">
+
+    <section class="intro">
+      <h1 class="intro-title" data-enter>Full-stack engineer who ships production software end to end.</h1>
+      <p class="intro-lede" data-enter>Work spans internal platforms at a state transportation agency, a subscription AI product with paying users, and a config-driven template system serving a client roster. <em class="em-bright">Currently building network and data tooling at the New Jersey Turnpike Authority.</em></p>
+      <div class="intro-meta" data-enter>
+        <span>Open to full-stack, frontend and AI product roles</span>
+        <span>Jersey City, NJ</span>
+      </div>
+    </section>
+
+    <section id="work" class="shell">
+
+      <div class="rail">
+
+        <div class="rail-identity">
+          <a href="#top" data-nav class="rail-name">Abdelrahmane Bensahla</a>
+          <span class="eyebrow rail-role">Full-stack engineer</span>
+          <div class="rail-links">
+            <a href="assets/resume.pdf" class="link-rule">Résumé</a>
+            <a href="#top" data-nav class="link-rule">Close</a>
+          </div>
+        </div>
+
+        <div class="rail-heading" data-enter>
+          <h2 class="section-label">Selected projects</h2>
+        </div>
+        <div class="rail-rule" data-enter="wipe"></div>
+
+        <a href="#jc" data-nav data-enter class="rail-row">
+          <div class="rail-row-head">
+            <span class="rail-row-title">Job Cannon</span>
+            <div class="rail-row-sub">Subscription AI product, built solo</div>
+          </div>
+          <div class="rail-row-blurb">
+            <p>An AI job-matching SaaS. Upload a resume, get ten ranked startup jobs with per-job reasoning in your inbox at 8am.</p>
+          </div>
+          <div class="rail-row-year">2026</div>
+        </a>
+
+        <a href="#sahl" data-nav data-enter class="rail-row">
+          <div class="rail-row-head">
+            <span class="rail-row-title">Sahl Solutions</span>
+            <div class="rail-row-sub">Config-driven template system</div>
+          </div>
+          <div class="rail-row-blurb">
+            <p>A productized web service where every client site is generated from one typed config file.</p>
+          </div>
+          <div class="rail-row-year">2024</div>
+        </a>
+
+        <div class="rail-gap"></div>
+
+        <h2 class="section-label section-label--spaced" data-enter>Work experience</h2>
+        <div class="rail-rule rail-rule--exp" data-enter="wipe"></div>
+
+        <a href="#net" data-nav data-enter class="rail-row">
+          <div class="rail-row-head">
+            <span class="rail-row-title">New Jersey Turnpike Authority</span>
+            <div class="rail-row-sub">Full-stack engineer, network and data tooling</div>
+          </div>
+          <div class="rail-row-blurb">
+            <p>Internal platforms for a state transportation agency. Built the network visualization system three departments now use daily.</p>
+          </div>
+          <div class="rail-row-year">Since 2025</div>
+        </a>
+      </div>
+
+      <div class="stage">
+
+        <!-- ── Job Cannon ─────────────────────────────────────────── -->
+        <article id="jc" class="panel">
+          <a href="#top" data-nav class="panel-back">← All work</a>
+          <header class="panel-head">
+            <div class="eyebrow-row">
+              <h6 class="eyebrow eyebrow--accent">Case study 01</h6>
+              <h6 class="eyebrow eyebrow--muted">SaaS, solo build</h6>
+            </div>
+            <h1 class="panel-title">Job Cannon</h1>
+            <p class="panel-lede">A subscription product that matches a resume against a nightly-scraped corpus of startup jobs and emails the top ten every morning. Built solo, live, with paying subscribers.</p>
+            <div class="stack-list">
+              <span>Next.js</span><span>TypeScript</span><span>Claude API</span><span>Stripe</span><span>Postgres</span><span>Vercel</span>
+            </div>
+            <div class="chip-row">
+              <a href="https://jobcannon.app" class="chip chip--live" target="_blank" rel="noopener">jobcannon.app ↗</a>
+            </div>
+          </header>
+
+          <section class="panel-section">
+            <figure class="shot shot--16x10">
+              <img src="assets/jobcannon-dashboard.png" alt="The Job Cannon landing page: &ldquo;Startup jobs, AI-matched to your resume, delivered daily&rdquo; above the drag-a-resume-PDF drop zone that opens the free instant-match preview." loading="lazy">
+            </figure>
+          </section>
+
+          <section class="panel-section">
+            <h6 class="eyebrow eyebrow--muted">The pipeline</h6>
+            <div class="diagram">
+              <div class="flow-step">
+                <div class="flow-node">PDF resume</div>
+                <div class="flow-edge"><span>Claude extracts a typed profile</span></div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-node">Keyword pre-filter over ~5K nightly-scraped jobs</div>
+                <div class="flow-edge"><span>narrowed candidate set</span></div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-node">Claude re-ranks top 10 with per-job reasoning</div>
+                <div class="flow-edge"><span>Vercel Cron + Resend</span></div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-node">Email digest, 8:00am ET</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel-section">
+            <div class="eyebrow-row">
+              <h6 class="eyebrow eyebrow--accent-2">The decision</h6>
+              <h6 class="eyebrow eyebrow--muted">No vector embeddings</h6>
+            </div>
+            <p class="prose">The obvious architecture for resume-to-job matching is embeddings and cosine similarity. I did not use them. At roughly 5,000 jobs in a narrow, highly structured domain, a keyword pre-filter followed by an LLM re-rank gave better precision than semantic similarity would have, because the domain vocabulary is standardized enough that lexical overlap is a strong signal. It also meant zero embedding infrastructure to run, version, and re-index every night.</p>
+            <p class="prose prose--aside">What I traded away: this approach will not survive a corpus an order of magnitude larger or a domain with looser vocabulary. The pre-filter is the bottleneck, and at 50K jobs I would be re-ranking a candidate set too noisy to be useful. That is the point at which I would add embeddings, and I would rather add them when the data tells me to than carry the infrastructure from day one.</p>
+          </section>
+
+          <section class="panel-section panel-section--wide">
+            <h6 class="eyebrow eyebrow--muted">The rest of the build</h6>
+            <div class="note">
+              <h4>Billing</h4>
+              <p>Stripe Checkout with a trial, signature-verified webhooks keeping Stripe and Postgres in sync, and the Customer Portal for self-serve billing. The edge case that cost me an evening: <em>checkout.session.completed</em> can land before the subscription row exists, so the handler has to be idempotent and upsert rather than update.</p>
+            </div>
+            <div class="note">
+              <h4>Funnel</h4>
+              <p>Clerk for auth, and a free instant-match preview at the top of the funnel: upload a resume, see three matches with reasoning, then hit the paywall for the daily digest.</p>
+            </div>
+            <div class="note">
+              <h4>The 8am run</h4>
+              <p>Vercel Cron triggers the digest job, which fans out per subscriber and sends through Resend. A failed run is logged per user rather than per batch, so one bad resume parse does not cost everyone else their morning email.</p>
+            </div>
+          </section>
+
+          <section class="panel-section">
+            <h6 class="eyebrow eyebrow--muted">The result</h6>
+            <div class="stat-grid">
+              <div class="stat"><div class="stat-value">Live</div><div class="stat-label">jobcannon.app</div></div>
+              <div class="stat"><div class="stat-value">3</div><div class="stat-label">Paying subscribers</div></div>
+              <div class="stat"><div class="stat-value">~5K</div><div class="stat-label">Jobs scraped nightly</div></div>
+            </div>
+            <div class="shot-pair">
+              <figure class="shot shot--fixed" data-slot="jc-email"><img src="assets/jobcannon-email.png" alt="The 8am digest email in an inbox: &ldquo;Your 10 startup jobs&rdquo;, listing Stripe at 82 match and Chime at 78, each with a paragraph of reasoning." loading="lazy"></figure>
+            </div>
+          </section>
+
+          <section class="panel-section panel-section--last">
+            <h6 class="eyebrow eyebrow--muted">What I would do differently</h6>
+            <p class="prose">I built the ranking before I built any way to measure it. For the first month my only signal that matching worked was reading digests myself, which is the worst possible evaluator. I would start with a labelled set of fifty resume-to-job pairs and a script that scores a run against it, so that every prompt change has a number attached. I would also send the first digest to myself an hour early, because a scheduled job whose failure mode is silence is a job you find out about from a customer.</p>
+          </section>
+        </article>
+
+        <!-- ── New Jersey Turnpike Authority ──────────────────────── -->
+        <article id="net" class="panel">
+          <a href="#top" data-nav class="panel-back">← All work</a>
+          <header class="panel-head">
+            <div class="eyebrow-row">
+              <h6 class="eyebrow eyebrow--accent">Work experience</h6>
+              <h6 class="eyebrow eyebrow--muted">Full-stack engineer, since 2025</h6>
+            </div>
+            <h1 class="panel-title">New Jersey Turnpike Authority</h1>
+            <p class="panel-lede">I build internal tooling for the agency's network and data teams. The main system is a network visualization platform mapping 500+ enterprise devices and IP addresses, used daily by technical and non-technical staff across three departments. Before it, troubleshooting meant cross-referencing spreadsheets.</p>
+            <div class="stack-list">
+              <span>Next.js</span><span>TypeScript</span><span>PostgreSQL</span><span>Drizzle</span><span>Node</span><span>Python</span>
+            </div>
+            <div class="callout">State agency system. Device names, addresses, and topology below are illustrative. Screenshots of the live app are not published.</div>
+            <div class="chip-row">
+              <span class="chip chip--todo">Internal, no public link</span>
+            </div>
+          </header>
+
+          <section class="panel-section">
+            <div class="eyebrow-row">
+              <h6 class="eyebrow eyebrow--muted">Shape of the system</h6>
+              <h6 class="eyebrow eyebrow--faint">Illustrative</h6>
+            </div>
+            <div class="diagram diagram--rows">
+              <div class="topo-row">
+                <div class="topo-label">ingestion</div>
+                <div class="topo-nodes">
+                  <span>scheduled ETL</span><span>monitoring agent</span><span>manual CSV import</span>
+                </div>
+              </div>
+              <div class="topo-row">
+                <div class="topo-label">core</div>
+                <div class="topo-nodes">
+                  <span>device</span><span>interface</span><span>device_links</span><span>site</span>
+                </div>
+              </div>
+              <div class="topo-row">
+                <div class="topo-label">surface</div>
+                <div class="topo-nodes">
+                  <span>topology view</span><span>device detail</span><span>search</span><span>REST API</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel-section">
+            <div class="eyebrow-row">
+              <h6 class="eyebrow eyebrow--accent-2">The performance work</h6>
+              <h6 class="eyebrow eyebrow--muted">2.4s to under 500ms</h6>
+            </div>
+            <p class="prose">The topology page took 2.4 seconds to load. Two causes. First, the device-relationship tables had no composite indexes, so relationship lookups were scanning. Second, two Drizzle queries were N+1: one query for the device list, then one per device for its connections. I added composite indexes on the relationship tables and rewrote both patterns as joins. Load time dropped to under 500ms.</p>
+            <div class="explain-grid">
+              <div class="explain">
+                <div class="explain-label">Before</div>
+                <pre>Seq Scan on device_links
+  rows=48212  cost=0.00..9821.4
++ 1 query per device (N+1)
+──────────────────────────
+total  2,412 ms</pre>
+              </div>
+              <div class="explain">
+                <div class="explain-label explain-label--after">After</div>
+                <pre>Index Scan using
+  device_links_src_dst_idx
+  rows=512  cost=0.29..184.6
+single join, one round trip
+──────────────────────────
+total    418 ms</pre>
+              </div>
+            </div>
+            <div class="caption">Sanitized plan summary. Figures rounded, table names generalized.</div>
+          </section>
+
+          <section class="panel-section panel-section--wide">
+            <h6 class="eyebrow eyebrow--muted">Also on this build</h6>
+            <div class="note">
+              <h4>The API layer</h4>
+              <p>REST endpoints in Node and Express: full CRUD over devices and relationships, auth middleware enforcing department-level access, and pagination on every list route because the device table only grows.</p>
+            </div>
+            <div class="note">
+              <h4>Script management service</h4>
+              <p>A Python service orchestrating monitoring, ingestion, and scheduled ETL on a common runner with logging and retries, replacing 10+ hours of weekly manual work that previously lived in someone's head.</p>
+            </div>
+            <div class="note">
+              <h4>Mentoring</h4>
+              <p>I onboarded two summer interns onto the codebase, paired on their features, and reviewed their PRs through to deployment. Writing the onboarding doc for them was the fastest way I found to notice which parts of the system I had never actually justified.</p>
+            </div>
+          </section>
+
+          <section class="panel-section">
+            <h6 class="eyebrow eyebrow--muted">The result</h6>
+            <div class="stat-grid">
+              <div class="stat"><div class="stat-value">500+</div><div class="stat-label">Devices mapped</div></div>
+              <div class="stat"><div class="stat-value">−40%</div><div class="stat-label">Troubleshooting time</div></div>
+              <div class="stat"><div class="stat-value">418ms</div><div class="stat-label">Topology load, was 2.4s</div></div>
+            </div>
+          </section>
+
+          <section class="panel-section panel-section--last">
+            <h6 class="eyebrow eyebrow--muted">What I would do differently</h6>
+            <p class="prose">I found the 2.4 second load because someone complained, not because anything told me. There was no query timing in the logs and no budget on the page, so a regression could sit there for weeks. I would put slow-query logging and a load-time assertion in CI on day one, since it is cheap to add early and awkward to retrofit into a system three departments already depend on. I would also have pushed harder for read-only demo data from the start, because the thing I most want to show about this project is exactly the thing I cannot publish.</p>
+          </section>
+        </article>
+
+        <!-- ── Sahl Solutions ─────────────────────────────────────── -->
+        <article id="sahl" class="panel">
+          <a href="#top" data-nav class="panel-back">← All work</a>
+          <header class="panel-head">
+            <div class="eyebrow-row">
+              <h6 class="eyebrow eyebrow--accent">Case study 02</h6>
+              <h6 class="eyebrow eyebrow--muted">Architecture</h6>
+            </div>
+            <h1 class="panel-title">Sahl Solutions</h1>
+            <p class="panel-lede">A productized web service for local businesses. The engineering problem was not building one site, it was building the tenth site without rewriting the first nine.</p>
+            <div class="stack-list">
+              <span>Next.js</span><span>TypeScript</span><span>Tailwind</span><span>Framer Motion</span>
+            </div>
+            <div class="chip-row">
+              <a href="https://sahlagency.com" class="chip chip--live" target="_blank" rel="noopener">sahlagency.com ↗</a>
+            </div>
+          </header>
+
+          <section class="panel-section">
+            <figure class="shot shot--16x10 shot--contain">
+              <img src="assets/sahlsolutions-dashboard.png" alt="The Sahl agency site: &ldquo;Your work speaks for itself. Your website should too.&rdquo; with a live client example and the headline figures — 7 days average delivery, $497 starting price, 100% you own everything." loading="lazy">
+            </figure>
+          </section>
+
+          <section class="panel-section">
+            <div class="eyebrow-row">
+              <h6 class="eyebrow eyebrow--accent-2">The decision</h6>
+              <h6 class="eyebrow eyebrow--muted">Config-driven templates</h6>
+            </div>
+            <p class="prose">Every client site is generated from a single typed <code>site.config.ts</code> holding colors, copy, section order, and integrations. Twelve reusable section components render from it. Per-client build time went from days to hours, and every site stays on one upgrade path: a fix to the contact section ships to all of them.</p>
+            <pre class="code-block">export const config: SiteConfig = {
+  brand:    { name: "Client", accent: "#FFB000" },
+  sections: ["hero", "services", "testimonials", "contact"],
+  hero:     { headline: "…", cta: { label: "Book", href: "#contact" } },
+  services: [{ title: "…", body: "…" }],
+  integrations: { forms: "resend", analytics: "plausible" },
+};</pre>
+            <div class="caption">Trimmed and anonymized. The section union type is what keeps a typo from shipping.</div>
+          </section>
+
+          <section class="panel-section">
+            <h6 class="eyebrow eyebrow--muted">The tooling evaluation</h6>
+            <p class="prose prose--aside prose--aside-plain">I evaluated Framer as a faster delivery path for the simplest builds. It wins on setup speed and loses on custom control, SEO, and bespoke integrations. I settled on using it only where speed was the whole requirement, and kept the Next.js template for anything where those three mattered.</p>
+            <div class="shot-pair">
+              <figure class="shot shot--fixed shot--tall" data-slot="sahl-client-1"><img src="assets/sahlsolutions-client1.png" alt="Comfort Zone HVAC, a client site built from the template: &ldquo;The air you breathe should feel intentional&rdquo; over three service cards." loading="lazy"></figure>
+            </div>
+          </section>
+
+          <section class="panel-section panel-section--last">
+            <h6 class="eyebrow eyebrow--muted">What I would do differently</h6>
+            <p class="prose">I generalized on the second client instead of the fourth. Two of the twelve section components exist because one client asked once, and they have been dead weight in every review since. The rule I would apply now is to copy and paste until a third site needs the same thing, then extract. I would also have versioned the config schema early, because shipping a shared fix is only easy while every site is on the same shape.</p>
+          </section>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="contact" data-enter>
+      <a href="mailto:abdelrahmane4216@gmail.com" class="contact-email">abdelrahmane4216@gmail.com</a>
+      <div class="contact-social">
+        <a href="https://www.linkedin.com/in/abdelrahmanebensahla/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://github.com/abdelrahmanebensahla" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </section>
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
