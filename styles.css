@@ -8,6 +8,9 @@
    ============================================================ */
 
 :root {
+  /* Dark palette — the default. Also the fallback for browsers with no
+     `prefers-color-scheme` support and no JS, so it has to stand on its
+     own rather than assume one of the blocks below will apply. */
   --bg:        #0A0A0A;
   --surface:   #131211;
   --line:      #1A1917;
@@ -27,12 +30,94 @@
   --accent-2:    #FFC44D;
   --accent-line: #6E4A00;
   --accent-bg:   #1C1405;
+  --selection:   rgba(255, 176, 0, .28);
 
   --serif: 'Newsreader', Georgia, serif;
   --sans:  'Instrument Sans', system-ui, sans-serif;
   --mono:  'IBM Plex Mono', ui-monospace, monospace;
 
   --ease: cubic-bezier(.22, .8, .25, 1);
+}
+
+/* System prefers light and the reader has not made an explicit choice —
+   see the `[data-theme]` overrides below, which win over this in both
+   directions regardless of source order (an attribute selector is more
+   specific than the bare `:root` a media query re-opens). No JS
+   required: this alone makes the page follow the OS. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg:        #FAF8F4;
+    --surface:   #F1EEE7;
+    --line:      #E7E2D8;
+    --line-soft: #EDE9E0;
+    --hairline:  #DCD6C8;
+    --border:    #CFC7B4;
+
+    --text:      #1B1812;
+    --text-2:    #383226;
+    --text-3:    #4A4536;
+    --muted:     #5F5849;
+    --muted-2:   #6E6858;
+    --muted-3:   #787058;
+    --faint:     #B7B0A0;
+
+    --accent:      #9C5A00;
+    --accent-2:    #7A4E00;
+    --accent-line: #C99A4D;
+    --accent-bg:   #FFF6E4;
+    --selection:   rgba(156, 90, 0, .22);
+  }
+}
+
+/* Explicit choice from the navbar switch, persisted to localStorage and
+   stamped onto <html> by the inline script in <head> before first
+   paint — see index.html. Repeats the two palettes verbatim rather
+   than layering deltas, so each one is a complete, independently
+   correct statement of "this is dark" / "this is light". */
+:root[data-theme="dark"] {
+  --bg:        #0A0A0A;
+  --surface:   #131211;
+  --line:      #1A1917;
+  --line-soft: #1E1D1B;
+  --hairline:  #232220;
+  --border:    #2A2926;
+
+  --text:      #EDEDEB;
+  --text-2:    #C4C1B9;
+  --text-3:    #A9A69E;
+  --muted:     #8B887F;
+  --muted-2:   #7A776F;
+  --muted-3:   #6A675F;
+  --faint:     #4E4B45;
+
+  --accent:      #FFB000;
+  --accent-2:    #FFC44D;
+  --accent-line: #6E4A00;
+  --accent-bg:   #1C1405;
+  --selection:   rgba(255, 176, 0, .28);
+}
+
+:root[data-theme="light"] {
+  --bg:        #FAF8F4;
+  --surface:   #F1EEE7;
+  --line:      #E7E2D8;
+  --line-soft: #EDE9E0;
+  --hairline:  #DCD6C8;
+  --border:    #CFC7B4;
+
+  --text:      #1B1812;
+  --text-2:    #383226;
+  --text-3:    #4A4536;
+  --muted:     #5F5849;
+  --muted-2:   #6E6858;
+  --muted-3:   #787058;
+  --faint:     #B7B0A0;
+
+  --accent:      #9C5A00;
+  --accent-2:    #7A4E00;
+  --accent-line: #C99A4D;
+  --accent-bg:   #FFF6E4;
+  --selection:   rgba(156, 90, 0, .22);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -52,6 +137,13 @@ body {
   font-size: 15px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  /* Softens the theme switch into a cross-fade instead of a hard cut.
+     Scoped to body rather than every themed element — a full sweep
+     would mean threading `color`/`background-color` into transition
+     shorthands throughout this file that currently animate other
+     properties, where the later property list wins outright rather
+     than merging with an earlier one. */
+  transition: background-color .35s ease, color .35s ease;
 
   /* ── home-state values ───────────────────────────────────── */
   --shell-flex:  0 0 auto;
@@ -124,7 +216,7 @@ code {
   padding: 2px 6px;
 }
 
-::selection { background: rgba(255, 176, 0, .28); }
+::selection { background: var(--selection); }
 :focus { outline: none; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
@@ -204,8 +296,87 @@ code {
   font-size: 21px;
   letter-spacing: -.01em;
 }
-.masthead-role   { color: var(--muted-2); }
-.masthead-resume { margin-left: auto; }
+.masthead-role { color: var(--muted-2); }
+
+/* Groups the résumé link and the theme switch so they can be centered
+   on each other — the masthead itself aligns its row on the text
+   baseline, which a switch control does not have one of. */
+.masthead-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ── theme switch ──────────────────────────────────────────── */
+/* Two instances share this markup/class: one in .masthead (home),
+   one in .rail-identity (a case study is open). Both stay in sync —
+   app.js updates every [data-theme-toggle] on click.
+
+   The thumb position and icon crossfade are driven by the same
+   three-tier cascade as the color tokens above (base :root → light
+   media query → [data-theme] override), so the switch already shows
+   the correct resolved state on first paint with no script — only
+   the click handler that flips it needs JS. */
+
+.theme-toggle {
+  flex: none;
+  position: relative;
+  width: 34px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--hairline);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+/* A 34×18 track is well under the 44px touch-target recommendation;
+   this pads the hit area without growing the visible switch. */
+.theme-toggle::before {
+  content: "";
+  position: absolute;
+  inset: -13px -5px;
+}
+
+.theme-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateX(0);
+  transition: transform .32s var(--ease), background-color .3s ease;
+}
+
+.theme-toggle-icon {
+  grid-area: 1 / 1;
+  width: 9px;
+  height: 9px;
+  color: var(--bg);
+  transition: opacity .2s ease;
+}
+.theme-toggle-icon--sun  { opacity: 0; }
+.theme-toggle-icon--moon { opacity: 1; }
+
+@media (prefers-color-scheme: light) {
+  .theme-toggle-thumb { transform: translateX(16px); }
+  .theme-toggle-icon--sun  { opacity: 1; }
+  .theme-toggle-icon--moon { opacity: 0; }
+}
+
+:root[data-theme="dark"] .theme-toggle-thumb  { transform: translateX(0); }
+:root[data-theme="dark"] .theme-toggle-icon--sun  { opacity: 0; }
+:root[data-theme="dark"] .theme-toggle-icon--moon { opacity: 1; }
+
+:root[data-theme="light"] .theme-toggle-thumb { transform: translateX(16px); }
+:root[data-theme="light"] .theme-toggle-icon--sun  { opacity: 1; }
+:root[data-theme="light"] .theme-toggle-icon--moon { opacity: 0; }
 
 .intro {
   display: grid;
@@ -281,6 +452,7 @@ body:has(.panel:target) .intro { display: none; }
 .rail-role { font-size: 10.5px; color: var(--muted-2); }
 .rail-links {
   display: flex;
+  align-items: center; /* the theme switch has no text baseline to sit on */
   gap: 18px;
   padding-top: 4px;
   font-family: var(--mono);
@@ -962,4 +1134,5 @@ body:has(#net:target)  .rail-row[href="#net"]::before {
   .rail-row::before, .rail-row-head,
   .link-rule::after, .contact-social a::after,
   .panel-back::after { transition: none; }
+  body, .theme-toggle-thumb, .theme-toggle-icon { transition: none; }
 }

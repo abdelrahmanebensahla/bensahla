@@ -15,6 +15,14 @@
     var id = location.hash.slice(1);
     // A deep link has nothing to slide in from; suppress the entrance.
     if (id === 'jc' || id === 'net' || id === 'sahl') d.setAttribute('data-deep-link', id);
+
+    // Restore an explicit theme choice. Absent one, the CSS in
+    // styles.css already follows `prefers-color-scheme` on its own —
+    // this only needs to run when the reader has overridden that.
+    try {
+      var theme = localStorage.getItem('theme');
+      if (theme === 'light' || theme === 'dark') d.setAttribute('data-theme', theme);
+    } catch (e) { /* localStorage unavailable (private mode, disabled) — system preference still applies */ }
   })();
 </script>
 <meta name="description" content="Full-stack engineer who ships production software end to end. Internal platforms at a state transportation agency, a subscription AI product with paying users, and a config-driven template system.">
@@ -30,7 +38,20 @@
   <header class="masthead" data-enter>
     <a href="#top" data-nav class="masthead-name">Abdelrahmane Bensahla</a>
     <span class="eyebrow masthead-role">Full-stack engineer</span>
-    <a href="assets/resume.pdf" class="eyebrow link-rule masthead-resume">Résumé</a>
+    <div class="masthead-actions">
+      <a href="assets/resume.pdf" class="eyebrow link-rule">Résumé</a>
+      <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false" aria-label="Switch to light theme">
+        <span class="theme-toggle-thumb">
+          <svg class="theme-toggle-icon theme-toggle-icon--sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <circle cx="8" cy="8" r="3"/>
+            <path d="M8 1.3v1.7M8 13v1.7M14.7 8h-1.7M3 8H1.3M12.6 3.4l-1.2 1.2M4.6 11.4l-1.2 1.2M12.6 12.6l-1.2-1.2M4.6 4.6l-1.2-1.2"/>
+          </svg>
+          <svg class="theme-toggle-icon theme-toggle-icon--moon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M13.7 9.3A5.8 5.8 0 1 1 6.7 2.3a4.7 4.7 0 0 0 7 7Z"/>
+          </svg>
+        </span>
+      </button>
+    </div>
   </header>
 
   <main id="top" class="main">
@@ -54,6 +75,17 @@
           <div class="rail-links">
             <a href="assets/resume.pdf" class="link-rule">Résumé</a>
             <a href="#top" data-nav class="link-rule">Close</a>
+            <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false" aria-label="Switch to light theme">
+              <span class="theme-toggle-thumb">
+                <svg class="theme-toggle-icon theme-toggle-icon--sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+                  <circle cx="8" cy="8" r="3"/>
+                  <path d="M8 1.3v1.7M8 13v1.7M14.7 8h-1.7M3 8H1.3M12.6 3.4l-1.2 1.2M4.6 11.4l-1.2 1.2M12.6 12.6l-1.2-1.2M4.6 4.6l-1.2-1.2"/>
+                </svg>
+                <svg class="theme-toggle-icon theme-toggle-icon--moon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M13.7 9.3A5.8 5.8 0 1 1 6.7 2.3a4.7 4.7 0 0 0 7 7Z"/>
+                </svg>
+              </span>
+            </button>
           </div>
         </div>
 
@@ -81,7 +113,7 @@
           <div class="rail-row-blurb">
             <p>A productized web service where every client site is generated from one typed config file.</p>
           </div>
-          <div class="rail-row-year">2024</div>
+          <div class="rail-row-year">2025</div>
         </a>
 
         <div class="rail-gap"></div>

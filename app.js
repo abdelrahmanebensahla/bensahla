@@ -9,6 +9,9 @@
  *     (or on the panel itself, when the layout is stacked).
  *   - An exit animation on the panel being closed.
  *   - Section reveals, and the pipeline diagram building in sequence.
+ *   - The navbar theme switch: styles.css already resolves dark/light
+ *     from `prefers-color-scheme` with no JS at all; this only handles
+ *     the explicit override and remembering it.
  *
  * Anything that starts an element hidden is gated on the `.motion`
  * class set by the head script — see index.html. If that class is
@@ -118,6 +121,57 @@
   window.addEventListener('hashchange', function () {
     root.removeAttribute('data-deep-link');
   }, { once: true });
+
+  // ── theme switch ──────────────────────────────────────────────────
+  // The visual state (thumb position, icon crossfade, every color on
+  // the page) is pure CSS — see the [data-theme] rules in styles.css.
+  // This only decides what the *next* click does and keeps the two
+  // switches (masthead and rail) and their ARIA state in agreement.
+
+  var toggles = document.querySelectorAll('[data-theme-toggle]');
+  var systemDark = window.matchMedia && matchMedia('(prefers-color-scheme: dark)');
+
+  function resolvedTheme() {
+    var explicit = root.getAttribute('data-theme');
+    if (explicit === 'light' || explicit === 'dark') return explicit;
+    return systemDark && systemDark.matches ? 'dark' : 'light';
+  }
+
+  function syncToggles() {
+    var isLight = resolvedTheme() === 'light';
+    toggles.forEach(function (btn) {
+      btn.setAttribute('aria-pressed', String(isLight));
+      btn.setAttribute('aria-label', 'Switch to ' + (isLight ? 'dark' : 'light') + ' theme');
+    });
+  }
+
+  function setTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    try { localStorage.setItem('theme', theme); } catch (e) { /* see head script */ }
+    syncToggles();
+  }
+
+  toggles.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setTheme(resolvedTheme() === 'light' ? 'dark' : 'light');
+    });
+  });
+
+  // No explicit choice stored: keep ARIA in sync if the OS theme
+  // changes while the page is open. The colors already update on
+  // their own via the `prefers-color-scheme` media query in CSS.
+  if (systemDark && systemDark.addEventListener) {
+    systemDark.addEventListener('change', function () {
+      if (!root.getAttribute('data-theme')) syncToggles();
+    });
+  }
+
+  syncToggles();
+  // A media-feature read can be stale on the very first synchronous
+  // pass in some environments even after the stylesheet has already
+  // resolved correctly; re-checking one frame later costs nothing and
+  // guarantees the switch's ARIA state agrees with what is on screen.
+  if (window.requestAnimationFrame) requestAnimationFrame(syncToggles);
 
   var sections = document.querySelectorAll('.panel-section');
 

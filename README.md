@@ -12,9 +12,9 @@ python -m http.server 8000
 
 | File | What it holds |
 | --- | --- |
-| `index.html` | All content: index rows and the three case-study panels |
-| `styles.css` | Design tokens, both layout states, all transitions |
-| `app.js` | Progressive enhancement only (Escape to close, scroll landing) |
+| `index.html` | All content: index rows, the three case-study panels, and the theme switch |
+| `styles.css` | Design tokens for both themes, both layout states, all transitions |
+| `app.js` | Progressive enhancement only (Escape to close, scroll landing, theme switch) |
 | `assets/` | Images |
 
 ## How the two states work
@@ -32,6 +32,50 @@ disabled. `app.js` only adds the Escape shortcut and the design's
 scroll-to-`#work` landing.
 
 This relies on `:has()` and `:target`.
+
+## Theme
+
+Dark and light, same three-tier cascade as the layout state above —
+color is a set of custom properties on `:root`, not a class that
+duplicates markup:
+
+1. **`:root`** — the dark palette. The default, and the fallback for a
+   browser with no `prefers-color-scheme` support and no JS.
+2. **`@media (prefers-color-scheme: light)`** — the light palette,
+   applied automatically when the OS prefers light and the reader
+   hasn't chosen otherwise. This step alone means the page follows the
+   system with zero JavaScript.
+3. **`:root[data-theme="dark"|"light"]`** — an explicit choice from the
+   navbar switch. An attribute selector is more specific than the bare
+   `:root` a media query re-opens, so this wins over step 2 in both
+   directions regardless of source order.
+
+The switch itself (`.theme-toggle`) is styled the same way: its thumb
+position and icon crossfade are plain CSS driven by the same
+cascade, so it already shows the correct state on first paint with no
+script. Only *changing* it needs JS — `app.js` reads whichever theme is
+resolved, flips it, stamps `data-theme` on `<html>`, and persists the
+choice to `localStorage`. A tiny synchronous script in `<head>` (before
+the stylesheet) restores that choice before first paint, so there's no
+flash of the wrong theme on reload.
+
+There are two switch instances — one in `.masthead` (home), one in
+`.rail-identity` (a case study is open) — since the masthead itself is
+hidden in detail view. Both carry `data-theme-toggle`; `app.js` keeps
+their `aria-pressed`/`aria-label` in agreement on every change, plus a
+`prefers-color-scheme` `change` listener so they stay correct if the OS
+theme flips while the reader hasn't made an explicit choice of their
+own.
+
+Every color in the file is a token — the only exception was
+`::selection`, now `var(--selection)` — so there's nothing hardcoded
+left to catch when a new palette value is needed. The light palette
+was chosen against the dark one's own contrast ratios (computed via
+the WCAG relative-luminance formula, not eyeballed): every text role
+matches or exceeds AA at its actual usage size, and the handful of
+intentionally-faint elements (hairline card borders, the `Illustrative`
+tag) stay proportionally as faint as their dark-theme counterparts
+rather than becoming a stricter, inconsistent standard for light mode.
 
 ## Responsive behaviour
 
