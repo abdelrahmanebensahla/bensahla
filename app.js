@@ -9,6 +9,7 @@
  *     (or on the panel itself, when the layout is stacked).
  *   - An exit animation on the panel being closed.
  *   - Section reveals, and the pipeline diagram building in sequence.
+ *   - Stat figures counting up as their section comes into view.
  *   - The navbar theme switch: styles.css already resolves dark/light
  *     from `prefers-color-scheme` with no JS at all; this only handles
  *     the explicit override and remembering it.
@@ -173,6 +174,37 @@
   // guarantees the switch's ARIA state agrees with what is on screen.
   if (window.requestAnimationFrame) requestAnimationFrame(syncToggles);
 
+  var COUNT_MS = 900;
+  var STAT_DELAY_MS = 120; // must match the card stagger (§7) in styles.css
+  var STAT_STEP_MS = 110;
+
+  /**
+   * Ticks the number inside a stat ("500+", "−40%", "~5K", "418ms") up
+   * from zero, keeping whatever surrounds it. Values with no number in
+   * them ("Live") are left alone.
+   */
+  function countUp(el) {
+    var match = /^(\D*)(\d+)(.*)$/.exec(el.textContent);
+    if (!match) return;
+    var target = Number(match[2]);
+    var start = null;
+
+    function frame(now) {
+      if (start === null) start = now;
+      var t = Math.min(1, (now - start) / COUNT_MS);
+      var eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = match[1] + Math.round(target * eased) + match[3];
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function countStats(section) {
+    section.querySelectorAll('.stat-value').forEach(function (el, i) {
+      setTimeout(function () { countUp(el); }, STAT_DELAY_MS + i * STAT_STEP_MS);
+    });
+  }
+
   var sections = document.querySelectorAll('.panel-section');
 
   if (motion && !('IntersectionObserver' in window)) {
@@ -187,6 +219,7 @@
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         entry.target.classList.add('is-visible');
+        countStats(entry.target);
         reveal.unobserve(entry.target); // once only
       });
     }, { rootMargin: '0px 0px -12% 0px' });

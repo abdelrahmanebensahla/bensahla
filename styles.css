@@ -993,6 +993,64 @@ body:has(#net:target)  .rail-row[href="#net"]::before {
   animation-delay: calc(480ms + var(--i) * 320ms);
 }
 
+/* ── 4. a case study's header settles in behind the panel ──── */
+
+.motion .panel:target .panel-head > * {
+  animation: riseIn .5s var(--ease) both;
+  animation-delay: calc(90ms + var(--h, 0) * 60ms);
+}
+.panel-head > :nth-child(2) { --h: 1; }
+.panel-head > :nth-child(3) { --h: 2; }
+.panel-head > :nth-child(4) { --h: 3; }
+.panel-head > :nth-child(5) { --h: 4; }
+.panel-head > :nth-child(6) { --h: 5; }
+
+/* same deep-link rule as the panel itself, see above */
+[data-deep-link="jc"]   #jc:target:not(.is-leaving) .panel-head > *,
+[data-deep-link="net"]  #net:target:not(.is-leaving) .panel-head > *,
+[data-deep-link="sahl"] #sahl:target:not(.is-leaving) .panel-head > * { animation: none; }
+
+/* ── 5. the topology fills in tier by tier ─────────────────── */
+
+.motion .topo-row                     { --r: 0; }
+.motion .topo-row:nth-child(2)        { --r: 1; }
+.motion .topo-row:nth-child(3)        { --r: 2; }
+.motion .topo-nodes span              { --k: 0; }
+.motion .topo-nodes span:nth-child(2) { --k: 1; }
+.motion .topo-nodes span:nth-child(3) { --k: 2; }
+.motion .topo-nodes span:nth-child(4) { --k: 3; }
+
+.motion .panel-section.is-visible .topo-label,
+.motion .panel-section.is-visible .topo-nodes span {
+  animation: riseIn .4s var(--ease) both;
+  animation-delay: calc(150ms + var(--r) * 260ms + var(--k, 0) * 70ms);
+}
+
+/* ── 6. screenshots wipe down inside their frame ───────────── */
+
+.motion .shot img {
+  clip-path: inset(0 0 100% 0);
+  transform: scale(1.04);
+  transition: clip-path .9s var(--ease) .12s, transform 1.3s var(--ease) .12s;
+}
+.motion .panel-section.is-visible .shot img { clip-path: inset(0); transform: none; }
+
+/* ── 7. cards in a section arrive one after another ────────── */
+
+.motion .panel-section.is-visible :is(.stat, .explain, .note) {
+  animation: riseIn .45s var(--ease) both;
+  animation-delay: calc(120ms + var(--c, 0) * 110ms);
+}
+.stat:nth-child(2), .explain:nth-child(2), .note:nth-of-type(2) { --c: 1; }
+.stat:nth-child(3), .note:nth-of-type(3) { --c: 2; }
+/* "after" is the punchline, so it waits for "before" to land */
+.explain + .explain { --c: 3; }
+
+/* ── 8. stat figures count up (app.js); fixed-width digits keep
+      the card from jittering as they tick ──────────────────── */
+
+.stat-value { font-variant-numeric: tabular-nums; }
+
 /* ── 9. mono links wipe an accent rule in from the left ────── */
 
 .link-rule, .contact-social a, .panel-back { position: relative; }
